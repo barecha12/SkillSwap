@@ -1,0 +1,285 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <link rel="icon" type="image/png" href="/image/img (2).png" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>SkillSwap | Learn what you want by teaching what you know</title>
+  <meta name="description"
+    content="SkillSwap is a web platform where users exchange skills instead of money. Connect with experts, teach what you know, and learn something new." />
+
+  <style>
+    /* ── Reset ── */
+    *,
+    *::before,
+    *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    /* ── Splash wrapper ── */
+    #app-splash {
+      position: fixed;
+      inset: 0;
+      z-index: 99999;
+      background: #050508;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      transition: opacity 0.8s cubic-bezier(0.4, 0, 0.2, 1), visibility 0.8s;
+      overflow: hidden;
+    }
+
+    #app-splash.splash-hide {
+      opacity: 0;
+      visibility: hidden;
+      pointer-events: none;
+    }
+
+    /* ── Grid Background ── */
+    .splash-grid {
+      position: absolute;
+      inset: 0;
+      background-image: radial-gradient(circle at 2px 2px, rgba(139, 92, 246, 0.05) 1px, transparent 0);
+      background-size: 40px 40px;
+      mask-image: radial-gradient(circle at center, black, transparent 80%);
+      pointer-events: none;
+    }
+
+    /* ── Ambient orbs ── */
+    .splash-orb {
+      position: absolute;
+      border-radius: 50%;
+      filter: blur(100px);
+      pointer-events: none;
+      opacity: 0.5;
+    }
+
+    .splash-orb-1 {
+      width: 600px;
+      height: 600px;
+      background: radial-gradient(circle, rgba(139, 92, 246, 0.3) 0%, transparent 70%);
+      top: -200px;
+      left: -100px;
+      animation: orbFloat1 10s ease-in-out infinite;
+    }
+
+    .splash-orb-2 {
+      width: 500px;
+      height: 500px;
+      background: radial-gradient(circle, rgba(236, 72, 153, 0.2) 0%, transparent 70%);
+      bottom: -150px;
+      right: -50px;
+      animation: orbFloat2 12s ease-in-out infinite;
+    }
+
+    @keyframes orbFloat1 {
+
+      0%,
+      100% {
+        transform: translate(0, 0) scale(1);
+      }
+
+      50% {
+        transform: translate(50px, 40px) scale(1.1);
+      }
+    }
+
+    @keyframes orbFloat2 {
+
+      0%,
+      100% {
+        transform: translate(0, 0) scale(1.1);
+      }
+
+      50% {
+        transform: translate(-40px, -60px) scale(1);
+      }
+    }
+
+    /* ── Logo Portal Section ── */
+    .portal-container {
+      position: relative;
+      width: 200px;
+      height: 200px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 40px;
+    }
+
+    /* Rotating outer ring */
+    .portal-ring {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      border: 2px dashed rgba(139, 92, 246, 0.3);
+      border-radius: 50%;
+      animation: ringRotate 8s linear infinite;
+    }
+
+    .portal-ring::before {
+      content: '';
+      position: absolute;
+      top: -5px;
+      left: 50%;
+      width: 10px;
+      height: 10px;
+      background: #8B5CF6;
+      border-radius: 50%;
+      box-shadow: 0 0 15px #8B5CF6;
+    }
+
+    /* Pulsing inner glow */
+    .portal-glow {
+      position: absolute;
+      width: 120px;
+      height: 120px;
+      background: radial-gradient(circle, rgba(139, 92, 246, 0.4) 0%, transparent 70%);
+      border-radius: 50%;
+      animation: portalPulse 3s ease-in-out infinite;
+    }
+
+    @keyframes ringRotate {
+      from {
+        transform: rotate(0deg);
+      }
+
+      to {
+        transform: rotate(360deg);
+      }
+    }
+
+    @keyframes portalPulse {
+
+      0%,
+      100% {
+        transform: scale(0.8);
+        opacity: 0.5;
+      }
+
+      50% {
+        transform: scale(1.2);
+        opacity: 1;
+      }
+    }
+
+    /* The Image Logo */
+    .splash-logo-img {
+      width: 100px;
+      height: 100px;
+      object-fit: contain;
+      z-index: 2;
+      animation: logoFloat 4s ease-in-out infinite;
+      filter: drop-shadow(0 0 20px rgba(139, 92, 246, 0.5));
+    }
+
+    @keyframes logoFloat {
+
+      0%,
+      100% {
+        transform: translateY(0) rotate(-5deg);
+      }
+
+      50% {
+        transform: translateY(-15px) rotate(5deg);
+      }
+    }
+
+    /* ── Typography ── */
+    .splash-brand {
+      font-family: 'Outfit', sans-serif;
+      font-size: 3.5rem;
+      font-weight: 900;
+      letter-spacing: -3px;
+      background: linear-gradient(135deg, #8B5CF6 0%, #EC4899 100%);
+      -webkit-background-clip: text;
+      background-clip: text;
+      -webkit-text-fill-color: transparent;
+      margin-bottom: 8px;
+      position: relative;
+    }
+
+    .splash-tag {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-size: 1.1rem;
+      color: #94A3B8;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      opacity: 0.7;
+      margin-bottom: 60px;
+    }
+
+    /* ── Progress Loader ── */
+    .loader-wrap {
+      width: 280px;
+      height: 4px;
+      background: rgba(255, 255, 255, 0.05);
+      border-radius: 10px;
+      overflow: hidden;
+      position: relative;
+    }
+
+    .loader-bar {
+      height: 100%;
+      width: 0%;
+      background: linear-gradient(90deg, #8B5CF6, #EC4899, #8B5CF6);
+      background-size: 200% 100%;
+      animation: loadBar 2s cubic-bezier(0.65, 0, 0.35, 1) forwards,
+        shimmerBar 2s linear infinite;
+      box-shadow: 0 0 20px rgba(139, 92, 246, 0.5);
+    }
+
+    @keyframes loadBar {
+      0% {
+        width: 0%;
+      }
+
+      100% {
+        width: 100%;
+      }
+    }
+
+    @keyframes shimmerBar {
+      0% {
+        background-position: 200% 0;
+      }
+
+      100% {
+        background-position: -200% 0;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <!-- ════════════════════════════════════════
+       SPLASH  — visible before React loads
+  ════════════════════════════════════════ -->
+  <div id="app-splash" aria-hidden="true">
+    <div class="splash-grid"></div>
+    <div class="splash-orb splash-orb-1"></div>
+    <div class="splash-orb splash-orb-2"></div>
+
+    <div class="portal-container">
+      <div class="portal-ring"></div>
+      <div class="portal-glow"></div>
+      <img src="/image/img (2).png" alt="SkillSwap" class="splash-logo-img" />
+    </div>
+
+    <div class="splash-brand">SkillSwap</div>
+    <div class="splash-tag">Future of Learning</div>
+
+    <div class="loader-wrap">
+      <div class="loader-bar"></div>
+    </div>
+  </div>
+
+  <div id="root"></div>
+  <script type="module" src="/src/main.jsx"></script>
+</body>
+
+</html>
