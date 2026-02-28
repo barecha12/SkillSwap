@@ -1,7 +1,7 @@
 import axios from 'axios'
 
 const api = axios.create({
-    baseURL: '/api',
+    baseURL: 'https://skillswap-production-b0e3.up.railway.app/api', // <-- updated
     headers: {
         'Content-Type': 'application/json',
         'Accept': 'application/json',
